@@ -1,5 +1,6 @@
 ﻿using Clinic.Domain.interfaces;
 using Clinic.Domain.interfaces.repos;
+using Clinic.Domain.Tables;
 using Clinic.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;

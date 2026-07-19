@@ -1,5 +1,6 @@
 ﻿using Clinic.Domain.Enum;
 
+namespace Clinic.Domain.Tables;
 public class Appointment : CommonBase
 {
     public Guid DoctorId { get; private set; }

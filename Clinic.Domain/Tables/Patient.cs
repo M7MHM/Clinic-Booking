@@ -1,21 +1,24 @@
-﻿
-public class Doctor : CommonBase
+﻿using Clinic.Domain.Tables;
+
+public class Patient : CommonBase
 {
     public string Name { get; private set; } = string.Empty;
+
     public int Age { get; private set; }
-    public string Specialization { get; private set; } = string.Empty;
+
     public string Email { get; private set; } = string.Empty;
+
     public bool IsActive { get; private set; } = true;
+
     public List<Appointment> Appointments { get; private set; } = new();
 
-    private Doctor() { }
+    private Patient() { }
 
-    public Doctor(string name, int age,  string specialization, string email)
+    public Patient(string name,int age,string email)
     {
         Id = Guid.NewGuid();
         Name = name;
         Age = age;
-        Specialization = specialization;
         Email = email;
     }
 
