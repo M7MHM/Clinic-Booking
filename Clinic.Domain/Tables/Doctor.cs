@@ -1,6 +1,6 @@
-﻿
-using Clinic.Domain.Tables;
+﻿using Clinic.Domain.Tables;
 
+namespace Clinic.Domain.Tables;
 public class Doctor : CommonBase
 {
     public string Name { get; private set; } = string.Empty;

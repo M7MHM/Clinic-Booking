@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace Clinic.Application.Features.Appointment.Commands
 {
-    public class CreateAppointmentCommand : IRequest<Guid>
-    {
-        public Guid DoctorId { get; set; }
-        public Guid PatientId { get; set; }
-
-        public string Title { get; set; } = string.Empty;
-        public DateTime AppointmentDate { get; set; }
-        public string? Notes { get; set; }
-    }
+    public record CreateAppointmentCommand (
+        Guid DoctorId,
+         Guid PatientId,
+         string Title ,
+         DateTime AppointmentDate ,
+         string? Notes 
+    ) : IRequest<Guid>;
 }

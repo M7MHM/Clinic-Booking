@@ -8,12 +8,5 @@ using System.Threading.Tasks;
 
 namespace Clinic.Application.Features.Appointment.Queries
 {
-    public class GetAppointmentByIdQuery :IRequest<AppointmentDto>
-    {
-        Guid Id { get; set; }
-        public GetAppointmentByIdQuery(Guid id)
-        {
-            Id = id;
-        }
-    }
+    public record GetAppointmentByIdQuery(Guid Id) :IRequest<AppointmentDto>;
 }

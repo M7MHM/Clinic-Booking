@@ -1,4 +1,5 @@
 ﻿using Clinic.Domain.interfaces.repos;
+using Clinic.Domain.Tables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
