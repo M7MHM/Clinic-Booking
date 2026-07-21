@@ -1,5 +1,7 @@
 ﻿using Clinic.Domain.Tables;
 
+namespace Clinic.Domain.Tables;
+
 public class Patient : CommonBase
 {
     public string Name { get; private set; } = string.Empty;
