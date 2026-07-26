@@ -60,6 +60,9 @@ namespace Clinic.Infrastructure
                 };
             });
 
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+
             return services;
         }
     }

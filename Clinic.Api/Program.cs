@@ -52,6 +52,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<Clinic.Api.Middleware.GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
