@@ -1,5 +1,6 @@
 ﻿using Clinic.Domain.interfaces.repos;
 using Clinic.Domain.Tables;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -15,24 +16,28 @@ namespace Clinic.Api.Controllers
         {
             _doctorRepo = doctorRepo;
         }
+        [Authorize(Roles = "Doctor")]
         [HttpGet]
         public async Task<IActionResult> GetAllDoctors()
         {
             var doctor = await _doctorRepo.AllDoctorsAsync();
             return Ok(doctor);
         }
+        [Authorize(Roles = "Doctor")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDoctorId(Guid id)
         {
             var doctor = await _doctorRepo.GetDoctorByIdAsync(id);
             return Ok(doctor);
         }
+        [Authorize(Roles = "Doctor")]
         [HttpPost]
         public async Task<IActionResult> AddDoctor(Doctor doctor)
         {
              await _doctorRepo.AddDoctorAsync(doctor); 
             return Ok();
         }
+        [Authorize(Roles = "Doctor")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDoctor(Doctor doctor , Guid id)
         {
