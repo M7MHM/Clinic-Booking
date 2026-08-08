@@ -36,7 +36,7 @@ namespace Clinic.Application.UnitTests.Controllers
                 .Setup(m => m.Send(It.IsAny<GetAllPatientsQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedList);
 
-            var result = await _controller.GetAllPatient();
+            var result = await _controller.GetAllPatients();
 
             var okResult = result as OkObjectResult;
             okResult.Should().NotBeNull();

@@ -52,20 +52,27 @@ namespace Clinic.Application.UnitTests.Doctors
         }
 
         [Fact]
-        public async Task Handle_Should_ThrowException_WhenDoctorDoesNotExist()
+        public async Task Handle_Should_NotUpdateDoctor_WhenDoctorDoesNotExist()
         {
             var doctorId = Guid.NewGuid();
-            var command = new UpdateDoctorCommand(doctorId, "New Name", "New Specialization");
+            var command = new UpdateDoctorCommand(
+                doctorId,
+                "New Name",
+                "New Specialization");
 
-            _doctorRepoMock.Setup(r => r.GetDoctorByIdAsync(doctorId))
-                           .ReturnsAsync((Doctor?)null);
+            _doctorRepoMock
+                .Setup(r => r.GetDoctorByIdAsync(doctorId))
+                .ReturnsAsync((Doctor?)null);
 
-            Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
+            await _handler.Handle(command, CancellationToken.None);
 
-            await act.Should().ThrowAsync<Exception>();
+            _doctorRepoMock.Verify(
+                r => r.UpdateDoctorAsync(It.IsAny<Doctor>()),
+                Times.Never);
 
-            _doctorRepoMock.Verify(r => r.UpdateDoctorAsync(It.IsAny<Doctor>()), Times.Never);
-            _unitOfWorkMock.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            _unitOfWorkMock.Verify(
+                u => u.SaveChangesAsync(It.IsAny<CancellationToken>()),
+                Times.Never);
         }
     }
 }
