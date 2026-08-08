@@ -11,7 +11,6 @@ namespace Clinic.Domain.interfaces.repos
     {
         Task<Appointment?> GetAppointmentByIdAsync(Guid id);
         Task AddAppointmentAsync(Appointment appointment);
-        Task RemoveAppointmentAsync(Appointment appointment);
         Task<IEnumerable<Appointment>> GetAppointmentByDoctorIdAsync(Guid doctorId);
         Task<IEnumerable<Appointment>> GetAppointmentByPatientIdAsync(Guid patientId);
         Task UpdateAppointmentAsync(Appointment appointment);

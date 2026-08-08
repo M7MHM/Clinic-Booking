@@ -4,7 +4,7 @@ namespace Clinic.Domain.Tables;
 
 public class Patient : CommonBase
 {
-    public string Name { get; private set; } = string.Empty;
+    public string Name { get;  set; } = string.Empty;
 
     public int Age { get; private set; }
 
@@ -14,7 +14,7 @@ public class Patient : CommonBase
 
     public List<Appointment> Appointments { get; private set; } = new();
 
-    private Patient() { }
+    public Patient() { }
 
     public Patient(string name,int age,string email)
     {

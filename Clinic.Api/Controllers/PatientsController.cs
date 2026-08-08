@@ -1,7 +1,9 @@
-﻿using Clinic.Domain.interfaces.repos;
-using Clinic.Domain.Tables;
+﻿using Clinic.Application.Features.Patient.Commands;
+using Clinic.Application.Features.Patient.Queries;
+using Clinic.Application.Features.Patient.Queries.Clinic.Application.Patients.Queries;
+using Clinic.Application.Patients.Commands;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Api.Controllers
@@ -10,42 +12,45 @@ namespace Clinic.Api.Controllers
     [ApiController]
     public class PatientsController : ControllerBase
     {
-        private readonly IPatientRepo _patientRepo;
-        public PatientsController(IPatientRepo PatientRepo)
-        {
-            _patientRepo = PatientRepo;
-        }
-        [Authorize(Roles = "Patient")]
-        [HttpGet]
-        public async Task<IActionResult> GetAllPatient()
-        {
-            var patient = await _patientRepo.AllPatientAsync();
-            return Ok(patient);
-        }
-        [Authorize(Roles = "Patient")]
+        private readonly IMediator _mediator;
 
+        public PatientsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [Authorize(Roles = "Doctor")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllPatients()
+        {
+            var result = await _mediator.Send(new GetAllPatientsQuery());
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Patient")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPatientId(Guid id)
         {
-            var patient = await _patientRepo.GetPatientByIdAsync(id);
-            return Ok(patient);
+            var result = await _mediator.Send(new GetPatientByIdQuery(id));
+            if (result == null) return NotFound();
+            return Ok(result);
         }
-        [Authorize(Roles = "Patient")]
+
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> AddPatient(Patient patient)
+        public async Task<IActionResult> AddPatient([FromBody] CreatePatientCommand command)
         {
-            await _patientRepo.AddPatientAsync(patient);
-            return Ok();
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
+
         [Authorize(Roles = "Patient")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePatient(Patient patient, Guid id)
+        public async Task<IActionResult> UpdatePatient(Guid id, [FromBody] UpdatePatientCommand command)
         {
-            if (id != patient.Id)
-                return BadRequest();
-            await _patientRepo.UpdatePatientAsync(patient);
+            if (id != command.Id) return BadRequest();
+            await _mediator.Send(command);
             return NoContent();
         }
     }
 }
-

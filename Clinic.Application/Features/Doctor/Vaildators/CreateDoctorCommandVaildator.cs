@@ -14,7 +14,9 @@ namespace Clinic.Application.Features.Doctor.Vaildators
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("The Name Is required.");
+                .WithMessage("The Name Is required.")
+                .MaximumLength(100)
+                .WithMessage("The name must not exceed 100 characters.");
 
             RuleFor(x => x.Age)
                 .InclusiveBetween(25, 80) 

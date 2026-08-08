@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Clinic.Application.Features.Doctor.Queries
 {
-    public record GetDoctorByIdQuery(Guid Id):IRequest<DoctorDto?>;
+    public record GetAllDoctorQuery: IRequest<List<DoctorDto>>;
 }

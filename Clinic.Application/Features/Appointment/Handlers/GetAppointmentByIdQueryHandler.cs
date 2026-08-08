@@ -23,7 +23,8 @@ namespace Clinic.Application.Features.Appointment.Handlers
         public async Task<AppointmentDto> Handle(GetAppointmentByIdQuery request, CancellationToken cancellationToken)
         {
             var appointment = await _appointmentRepo.GetAppointmentByIdAsync(request.Id);
-            if (appointment == null) throw new Exception($"Appointment with Id {request.Id} was not found.");
+            if (appointment == null)
+                return null;
             return _mapper.Map<AppointmentDto>(appointment);
         }
     }

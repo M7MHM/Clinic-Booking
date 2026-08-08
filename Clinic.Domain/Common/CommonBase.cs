@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 public abstract class CommonBase
 {
-    public Guid Id { get; protected set; }
+    public Guid Id { get; init; }
 
     public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
 

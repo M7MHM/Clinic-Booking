@@ -23,7 +23,8 @@ namespace Clinic.Application.Features.Doctor.Handlers
         public async Task<DoctorDto> Handle(GetDoctorByIdQuery request, CancellationToken cancellationToken)
         {
             var doctor = await _doctorRepo.GetDoctorByIdAsync(request.Id);
-            if (doctor == null) throw new Exception($"Doctor with Id {request.Id} was not found.");
+            if (doctor == null)
+                return null;
             return _mapper.Map<DoctorDto>(doctor);
         }
     }

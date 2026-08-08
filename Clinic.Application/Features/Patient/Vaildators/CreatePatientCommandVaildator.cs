@@ -14,14 +14,17 @@ namespace Clinic.Application.Features.Patient.Vaildators
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("The Name Is required.");
+                .WithMessage("The name is required.")
+                .MaximumLength(100)
+                .WithMessage("The name must not exceed 100 characters.");
 
             RuleFor(x => x.Age)
-                .InclusiveBetween(25, 80)
-                .WithMessage("Patient age is required.");
+                .InclusiveBetween(0, 120)
+                .WithMessage("Age must be between 0 and 120.");
 
             RuleFor(x => x.Email)
                 .NotEmpty()
+                .WithMessage("Email is required.")
                 .MaximumLength(100)
                 .EmailAddress()
                 .WithMessage("A valid email is required.");

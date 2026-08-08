@@ -1,5 +1,8 @@
-﻿using Clinic.Domain.interfaces.repos;
+﻿using Clinic.Application.Features.Doctor.Commands;
+using Clinic.Application.Features.Doctor.Queries;
+using Clinic.Domain.interfaces.repos;
 using Clinic.Domain.Tables;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,39 +14,41 @@ namespace Clinic.Api.Controllers
     [ApiController]
     public class DoctorsController : ControllerBase
     {
-        private readonly IDoctorRepo _doctorRepo;
-        public DoctorsController(IDoctorRepo doctorRepo)
+        private readonly IMediator _mediator;
+        public DoctorsController(IMediator mediator)
         {
-            _doctorRepo = doctorRepo;
+            _mediator = mediator;
         }
         [Authorize(Roles = "Doctor")]
         [HttpGet]
         public async Task<IActionResult> GetAllDoctors()
         {
-            var doctor = await _doctorRepo.AllDoctorsAsync();
+            var doctor = await _mediator.Send(new GetAllDoctorQuery());
             return Ok(doctor);
         }
         [Authorize(Roles = "Doctor")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDoctorId(Guid id)
         {
-            var doctor = await _doctorRepo.GetDoctorByIdAsync(id);
+            var doctor = await _mediator.Send(new GetDoctorByIdQuery(id));
+            if (doctor == null)
+                return NotFound();
             return Ok(doctor);
         }
         [Authorize(Roles = "Doctor")]
         [HttpPost]
-        public async Task<IActionResult> AddDoctor(Doctor doctor)
+        public async Task<IActionResult> AddDoctor([FromBody] CreateDoctorCommand command)
         {
-             await _doctorRepo.AddDoctorAsync(doctor); 
-            return Ok();
+           var result = await _mediator.Send(command);
+            return Ok(result);
         }
         [Authorize(Roles = "Doctor")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDoctor(Doctor doctor , Guid id)
+        public async Task<IActionResult> UpdateDoctor(Guid id , UpdateDoctorCommand command)
         {
-            if (id != doctor.Id)
+            if (id != command.Id)
                 return BadRequest();
-            await _doctorRepo.UpdateDoctorAsync(doctor);
+            await _mediator.Send(command);
             return NoContent();
         }
     }

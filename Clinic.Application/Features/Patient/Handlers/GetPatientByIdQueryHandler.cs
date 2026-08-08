@@ -24,7 +24,7 @@ namespace Clinic.Application.Features.Patient.Handlers
         {
             var patient = await _patientRepo.GetPatientByIdAsync(request.id);
             if (patient == null)
-                throw new Exception($"Appointment with Id {request.id} was not found.");
+                return null;
             return _mapper.Map<PatientDto>(patient);    
         }
     }

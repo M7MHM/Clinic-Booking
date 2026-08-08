@@ -23,6 +23,15 @@ public class Appointment : CommonBase
         Notes = notes;
         Status = AppointmentStatus.Pending;
     }
+    public void Update(
+    string title,
+    DateTime appointmentDate,
+    string? notes)
+    {
+        Title = title;
+        AppointmentDate = appointmentDate;
+        Notes = notes;
+    }
 
     public void Confirm()
     {

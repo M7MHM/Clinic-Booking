@@ -23,7 +23,6 @@ namespace Clinic.Infrastructure.Repos
         public async Task AddAppointmentAsync(Appointment appointment)
         {
             await _context.Appointments.AddAsync(appointment);
-            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Appointment>> GetAppointmentByDoctorIdAsync(Guid doctorId)
@@ -44,17 +43,9 @@ namespace Clinic.Infrastructure.Repos
                 .Where(a => a.PatientId == patientId)
                 .ToListAsync();
         }
-
-        public async Task RemoveAppointmentAsync(Appointment appointment)
-        {
-            _context.Appointments.Remove(appointment);
-            await _unitOfWork.SaveChangesAsync();
-        }
-
         public async Task UpdateAppointmentAsync(Appointment appointment)
         {
             _context.Appointments.Update(appointment);
-            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

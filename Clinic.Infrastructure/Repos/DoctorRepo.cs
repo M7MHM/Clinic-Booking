@@ -24,7 +24,6 @@ namespace Clinic.Infrastructure.Repos
         public async Task AddDoctorAsync(Doctor doctor)
         {
            await _context.Doctors.AddAsync(doctor);
-            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<List<Doctor>> AllDoctorsAsync()
@@ -40,7 +39,6 @@ namespace Clinic.Infrastructure.Repos
         public async Task UpdateDoctorAsync(Doctor doctor)
         {
             _context.Doctors.Update(doctor);
-            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

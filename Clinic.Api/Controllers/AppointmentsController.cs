@@ -1,9 +1,8 @@
-﻿using Clinic.Domain.interfaces.repos;
-using Clinic.Domain.Tables;
+﻿using Clinic.Application.Features.Appointment.Commands;
+using Clinic.Application.Features.Appointment.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Clinic.Api.Controllers
 {
@@ -11,56 +10,71 @@ namespace Clinic.Api.Controllers
     [ApiController]
     public class AppointmentsController : ControllerBase
     {
-        private readonly IAppointmentRepo _appointmentRepo;
-        public AppointmentsController(IAppointmentRepo appointmentRepo)
+        private readonly IMediator _mediator;
+
+        public AppointmentsController(IMediator mediator)
         {
-            _appointmentRepo = appointmentRepo;
+            _mediator = mediator;
         }
+
         [Authorize(Roles = "Doctor")]
         [HttpGet("doctor/{doctorId}")]
         public async Task<IActionResult> GetAllDoctorAppointments(Guid doctorId)
         {
-            var appointments = await _appointmentRepo.GetAppointmentByDoctorIdAsync(doctorId);
+            var appointments =
+                await _mediator.Send(
+                    new GetAppointmentsByDoctorIdQuery(doctorId));
+
             return Ok(appointments);
         }
+
         [Authorize(Roles = "Patient")]
         [HttpGet("patient/{patientId}")]
         public async Task<IActionResult> GetAllPatientAppointments(Guid patientId)
         {
-            var appointments = await _appointmentRepo.GetAppointmentByPatientIdAsync(patientId);
+            var appointments =
+                await _mediator.Send(
+                    new GetAppointmentsByPatientQuery(patientId));
+
             return Ok(appointments);
         }
+
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAppointmentById(Guid id)
         {
-            var appointment = await _appointmentRepo.GetAppointmentByIdAsync(id);
+            var appointment =
+                await _mediator.Send(
+                    new GetAppointmentByIdQuery(id));
+
+            if (appointment == null)
+                return NotFound();
+
             return Ok(appointment);
         }
+
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddApointment(Appointment appointment)
+        public async Task<IActionResult> AddAppointment(
+            [FromBody] CreateAppointmentCommand command)
         {
-            await _appointmentRepo.AddAppointmentAsync(appointment);
-            return Ok();
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
         }
+
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppointment(Appointment appointment , Guid id)
+        public async Task<IActionResult> UpdateAppointment(
+            Guid id,
+            [FromBody] UpdateAppointmentCommand command)
         {
-            if(id != appointment.Id)
+            if (id != command.Id)
                 return BadRequest();
-            await _appointmentRepo.UpdateAppointmentAsync(appointment);
+
+            await _mediator.Send(command);
+
             return NoContent();
         }
-        [Authorize]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAppointment(Guid id , Appointment appointment)
-        {
-            if(id != appointment.Id)
-                return BadRequest();
-            await _appointmentRepo.RemoveAppointmentAsync(appointment);
-            return NoContent();
-        } 
     }
 }

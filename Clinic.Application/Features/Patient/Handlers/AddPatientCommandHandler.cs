@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Clinic.Application.Features.Patient.Handlers
 {
-    public class CreatePatientCommandHandler : IRequestHandler<CreatePatientCommand, Guid>
+    public class AddPatientCommandHandler : IRequestHandler<CreatePatientCommand, Guid>
     {
         private readonly IPatientRepo _patientRepo;
         private readonly IUnitOfWork _unitOfWork;
-        public CreatePatientCommandHandler(IPatientRepo patientRepo ,IUnitOfWork unitOfWork)
+        public AddPatientCommandHandler(IPatientRepo patientRepo ,IUnitOfWork unitOfWork)
         {
             _patientRepo = patientRepo;
             _unitOfWork = unitOfWork;
