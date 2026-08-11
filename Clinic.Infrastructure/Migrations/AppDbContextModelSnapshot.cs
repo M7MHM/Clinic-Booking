@@ -41,7 +41,7 @@ namespace Clinic.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FristName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
 

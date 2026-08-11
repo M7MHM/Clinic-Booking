@@ -19,7 +19,7 @@ namespace Clinic.Api.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Roles = "Doctor")]
+        [Authorize(Roles = "Doctor,Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllPatients()
         {
@@ -27,7 +27,7 @@ namespace Clinic.Api.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Patient")]
+        [Authorize(Roles = "Doctor,Patient,Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPatientId(Guid id)
         {
@@ -36,7 +36,7 @@ namespace Clinic.Api.Controllers
             return Ok(result);
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Patient,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddPatient([FromBody] CreatePatientCommand command)
         {
@@ -44,7 +44,7 @@ namespace Clinic.Api.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Patient")]
+        [Authorize(Roles = "Patient,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePatient(Guid id, [FromBody] UpdatePatientCommand command)
         {

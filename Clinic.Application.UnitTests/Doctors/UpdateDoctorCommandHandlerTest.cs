@@ -60,19 +60,14 @@ namespace Clinic.Application.UnitTests.Doctors
                 "New Name",
                 "New Specialization");
 
-            _doctorRepoMock
-                .Setup(r => r.GetDoctorByIdAsync(doctorId))
+            _doctorRepoMock.Setup(r => r.GetDoctorByIdAsync(doctorId))
                 .ReturnsAsync((Doctor?)null);
 
             await _handler.Handle(command, CancellationToken.None);
 
-            _doctorRepoMock.Verify(
-                r => r.UpdateDoctorAsync(It.IsAny<Doctor>()),
-                Times.Never);
+            _doctorRepoMock.Verify(r => r.UpdateDoctorAsync(It.IsAny<Doctor>()),Times.Never);
 
-            _unitOfWorkMock.Verify(
-                u => u.SaveChangesAsync(It.IsAny<CancellationToken>()),
-                Times.Never);
+            _unitOfWorkMock.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()),Times.Never);
         }
     }
 }

@@ -19,14 +19,14 @@ namespace Clinic.Api.Controllers
         {
             _mediator = mediator;
         }
-        [Authorize(Roles = "Doctor")]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllDoctors()
         {
             var doctor = await _mediator.Send(new GetAllDoctorQuery());
             return Ok(doctor);
         }
-        [Authorize(Roles = "Doctor")]
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDoctorId(Guid id)
         {
@@ -35,14 +35,14 @@ namespace Clinic.Api.Controllers
                 return NotFound();
             return Ok(doctor);
         }
-        [Authorize(Roles = "Doctor")]
+        [Authorize(Roles = "Doctor,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddDoctor([FromBody] CreateDoctorCommand command)
         {
            var result = await _mediator.Send(command);
             return Ok(result);
         }
-        [Authorize(Roles = "Doctor")]
+        [Authorize(Roles = "Doctor,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDoctor(Guid id , UpdateDoctorCommand command)
         {
