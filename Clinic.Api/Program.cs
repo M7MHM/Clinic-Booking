@@ -1,9 +1,10 @@
-﻿using Clinic.Infrastructure;
-using Clinic.Application;
+﻿using Clinic.Application;
+using Clinic.Domain.Common;
+using Clinic.Infrastructure;
 using Clinic.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,28 +50,26 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>(); 
-    dbContext.Database.Migrate();
-}
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var dbContext = services.GetRequiredService<AppDbContext>();
+
+    var dbContext =
+        services.GetRequiredService<AppDbContext>();
+
     await dbContext.Database.MigrateAsync();
 
-    var roleManager = services.GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<IdentityRole>>();
-    
-    string[] roles = {"Patient", "Doctor", "Admin"};
+    var userManager =
+        services.GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
 
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
+    var roleManager =
+        services.GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<IdentityRole>>();
+
+    await DbInitializer.SeedAsync(
+        userManager,
+        roleManager,
+        dbContext);
 }
 
 // Configure the HTTP request pipeline.

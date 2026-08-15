@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Clinic.Application.Common.Interfaces;
 using Clinic.Application.Identity.Interfaces;
 using Clinic.Domain.Common;
 using Clinic.Domain.interfaces;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 
 namespace Clinic.Infrastructure
 {
@@ -62,6 +64,14 @@ namespace Clinic.Infrastructure
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            var redisConnection =
+                configuration["Redis:ConnectionString"] ?? "localhost:6379";
+
+                services.AddSingleton<IConnectionMultiplexer>(
+                    ConnectionMultiplexer.Connect(redisConnection));
+
+                services.AddScoped<ICacheService, RedisCacheService>();
 
             return services;
         }

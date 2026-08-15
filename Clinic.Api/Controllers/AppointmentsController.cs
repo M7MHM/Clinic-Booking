@@ -17,7 +17,7 @@ namespace Clinic.Api.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Roles = "Doctor")]
+        [Authorize(Roles = "Admin,Doctor")]
         [HttpGet("doctor/{doctorId}")]
         public async Task<IActionResult> GetAllDoctorAppointments(Guid doctorId)
         {
@@ -28,7 +28,7 @@ namespace Clinic.Api.Controllers
             return Ok(appointments);
         }
 
-        [Authorize(Roles = "Patient")]
+        [Authorize(Roles = "Admin,Patient")]
         [HttpGet("patient/{patientId}")]
         public async Task<IActionResult> GetAllPatientAppointments(Guid patientId)
         {
