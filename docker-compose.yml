@@ -9,6 +9,7 @@ services:
     ports:
       - "8080:8080"
     environment:
+<<<<<<< HEAD
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=ClinicDb;Username=postgres;Password=clinicpassword
       - Redis__ConnectionString=redis:6379
@@ -22,6 +23,14 @@ services:
         condition: service_started
       rabbitmq:
         condition: service_healthy
+=======
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=ClinicDb;Username=postgres;Password=clinicpassword
+      Redis__ConnectionString: redis:6379
+    depends_on:
+      - postgres
+      - redis
+>>>>>>> feature/redis-and-caching-safe
 
   postgres:
     image: postgres:16
@@ -41,6 +50,7 @@ services:
     ports:
       - "6379:6379"
 
+<<<<<<< HEAD
   rabbitmq:
     image: rabbitmq:3-management
     container_name: clinic_rabbitmq
@@ -56,5 +66,7 @@ services:
       timeout: 5s
       retries: 5
 
+=======
+>>>>>>> feature/redis-and-caching-safe
 volumes:
   postgres_data:

@@ -21,7 +21,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+<<<<<<< HEAD
     <PackageReference Include="RabbitMQ.Client" Version="7.2.2" />
+=======
+>>>>>>> feature/redis-and-caching-safe
     <PackageReference Include="StackExchange.Redis" Version="3.1.13" />
   </ItemGroup>
 

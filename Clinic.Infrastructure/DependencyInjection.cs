@@ -69,6 +69,7 @@ namespace Clinic.Infrastructure
             var redisConnection =
                 configuration["Redis:ConnectionString"] ?? "localhost:6379";
 
+<<<<<<< HEAD
             services.AddSingleton<IConnectionMultiplexer>(
                 ConnectionMultiplexer.Connect(redisConnection));
 
@@ -76,6 +77,12 @@ namespace Clinic.Infrastructure
 
             services.AddScoped<IMessageProducer, RabbitMQProducer>();
             services.AddHostedService<NotificationConsumer>();
+=======
+                services.AddSingleton<IConnectionMultiplexer>(
+                    ConnectionMultiplexer.Connect(redisConnection));
+
+                services.AddScoped<ICacheService, RedisCacheService>();
+>>>>>>> feature/redis-and-caching-safe
 
             return services;
         }

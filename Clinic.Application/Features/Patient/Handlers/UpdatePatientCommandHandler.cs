@@ -1,4 +1,5 @@
-﻿using Clinic.Application.Features.Patient.Commands;
+﻿using Clinic.Application.Common.Interfaces;
+using Clinic.Application.Features.Patient.Commands;
 using Clinic.Domain.interfaces;
 using Clinic.Domain.interfaces.repos;
 using MediatR;
@@ -9,11 +10,12 @@ namespace Clinic.Application.Patients.Commands
     {
         private readonly IPatientRepo _patientRepo;
         private readonly IUnitOfWork _unitOfWork;
-
-        public UpdatePatientCommandHandler(IPatientRepo patientRepo, IUnitOfWork unitOfWork)
+        private readonly ICacheService _cacheService;
+        public UpdatePatientCommandHandler(IPatientRepo patientRepo, IUnitOfWork unitOfWork , ICacheService cacheService)
         {
             _patientRepo = patientRepo;
             _unitOfWork = unitOfWork;
+            _cacheService = cacheService;
         }
 
         public async Task Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
@@ -24,6 +26,9 @@ namespace Clinic.Application.Patients.Commands
             patient.Name = request.Name; 
             await _patientRepo.UpdatePatientAsync(patient);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _cacheService.RemoveAsync("patients:all");
+            await _cacheService.RemoveAsync($"patients:{request.Id}");
         }
     }
 }
