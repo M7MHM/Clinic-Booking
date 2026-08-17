@@ -33,8 +33,7 @@ namespace Clinic.Api.Controllers
         public async Task<IActionResult> GetAllPatientAppointments(Guid patientId)
         {
             var appointments =
-                await _mediator.Send(
-                    new GetAppointmentsByPatientQuery(patientId));
+                await _mediator.Send(new GetAppointmentsByPatientQuery(patientId));
 
             return Ok(appointments);
         }
@@ -55,8 +54,7 @@ namespace Clinic.Api.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddAppointment(
-            [FromBody] CreateAppointmentCommand command)
+        public async Task<IActionResult> AddAppointment([FromBody] CreateAppointmentCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -65,13 +63,21 @@ namespace Clinic.Api.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppointment(
-            Guid id,
-            [FromBody] UpdateAppointmentCommand command)
+        public async Task<IActionResult> UpdateAppointment( Guid id, [FromBody] UpdateAppointmentCommand command)
         {
             if (id != command.Id)
                 return BadRequest();
 
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
+        [HttpPatch("{id}/cancel")]
+        public async Task<IActionResult> CancelAppointment(Guid id ,[FromBody] CancelAppointmentCommand command)
+        {
+            if (id != command.AppointmentId)
+                return BadRequest();
+            
             await _mediator.Send(command);
 
             return NoContent();
