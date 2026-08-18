@@ -31,17 +31,14 @@ namespace Clinic.Application.Features.Appointment.Handlers
             var appointment = await _appointmentRepo.GetAppointmentByIdAsync(request.Id);
             if (appointment == null)
                 return null;
-<<<<<<< HEAD
                 
             return _mapper.Map<AppointmentDto>(appointment);
-=======
 
             var appointmentDto = _mapper.Map<AppointmentDto>(appointment);
 
             await _cacheService.SetAsync(cacheKey, appointmentDto, TimeSpan.FromMinutes(5));
 
             return appointmentDto;
->>>>>>> feature/redis-and-caching-safe
         }
     }
 }

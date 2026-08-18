@@ -1,4 +1,5 @@
-﻿using Clinic.Application.Features.Doctor.Commands;
+﻿using Clinic.Application.Common.Interfaces;
+using Clinic.Application.Features.Doctor.Commands;
 using Clinic.Application.Features.Doctor.Handlers;
 using Clinic.Application.Features.Patient.Commands;
 using Clinic.Application.Patients.Commands;
@@ -21,13 +22,13 @@ namespace Clinic.Application.UnitTests.Doctors
         private readonly Mock<IDoctorRepo> _doctorRepoMock;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly UpdateDoctorCommandHandler _handler;
-
+        private readonly Mock<ICacheService> _cacheServiceMock;
         public UpdateDoctorCommandHandlerTest()
         {
             _doctorRepoMock = new Mock<IDoctorRepo>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
-
-            _handler = new UpdateDoctorCommandHandler(_doctorRepoMock.Object, _unitOfWorkMock.Object);
+            _cacheServiceMock = new Mock<ICacheService>();
+            _handler = new UpdateDoctorCommandHandler(_doctorRepoMock.Object, _unitOfWorkMock.Object,_cacheServiceMock.Object);
         }
 
         [Fact]

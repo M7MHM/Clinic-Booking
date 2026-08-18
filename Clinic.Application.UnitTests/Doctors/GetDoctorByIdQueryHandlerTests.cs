@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Clinic.Application.Common.Interfaces;
 using Clinic.Application.Features.Doctor.Dtos;
 using Clinic.Application.Features.Doctor.Handlers;
 using Clinic.Application.Features.Doctor.Queries;
@@ -23,15 +24,13 @@ namespace Clinic.Application.UnitTests.Doctors
         private readonly Mock<IDoctorRepo> _doctorRepoMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly GetDoctorByIdQueryHandler _handler;
-
+        private readonly Mock<ICacheService> _cacheServiceMock;
         public GetDoctorByIdQueryHandlerTests()
         {
             _doctorRepoMock = new Mock<IDoctorRepo>();
             _mapperMock = new Mock<IMapper>();
-
-            _handler = new GetDoctorByIdQueryHandler(
-                _doctorRepoMock.Object, _mapperMock.Object
-            );
+            _cacheServiceMock = new Mock<ICacheService>();
+            _handler = new GetDoctorByIdQueryHandler( _doctorRepoMock.Object, _mapperMock.Object,_cacheServiceMock.Object);
         }
         [Fact]
         public async Task Handle_Should_ReturnDoctorDto_WhenDoctorExists()

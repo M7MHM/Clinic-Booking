@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Clinic.Application.Common.Interfaces;
 using Clinic.Application.Features.Appointment.Dtos;
 using Clinic.Application.Features.Appointment.Handlers;
 using Clinic.Application.Features.Appointment.Queries;
@@ -15,15 +16,13 @@ namespace Clinic.Application.UnitTests.Appointments
         private readonly Mock<IAppointmentRepo> _appointmentRepoMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly GetAppointmentsByDoctorIdQueryHandler _handler;
-
+        private readonly Mock<ICacheService> _cacheServiceMock;
         public GetAppointmentsByDoctorIdQueryHandlerTest()
         {
             _appointmentRepoMock = new Mock<IAppointmentRepo>();
             _mapperMock = new Mock<IMapper>();
-
-            _handler = new GetAppointmentsByDoctorIdQueryHandler(
-                _appointmentRepoMock.Object,
-                _mapperMock.Object);
+            _cacheServiceMock = new Mock<ICacheService>();
+            _handler = new GetAppointmentsByDoctorIdQueryHandler(_appointmentRepoMock.Object, _mapperMock.Object, _cacheServiceMock.Object);
         }
 
         [Fact]

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Clinic.Application.Common.Interfaces;
 using Clinic.Application.Features.Appointment.Dtos;
 using Clinic.Application.Features.Appointment.Handlers;
 using Clinic.Application.Features.Appointment.Queries;
@@ -19,11 +20,13 @@ namespace Clinic.Application.UnitTests.Appointments
         private readonly Mock<IAppointmentRepo> _appointmentRepo;
         private readonly Mock<IMapper> _mapper;
         private readonly GetAppointmentByIdQueryHandler _handler;
+        private readonly Mock<ICacheService> _cacheServiceMock;
         public GetAppointmentByIdQueryHandlerTest()
         {
             _appointmentRepo = new Mock<IAppointmentRepo>();
             _mapper = new Mock<IMapper>();
-            _handler = new GetAppointmentByIdQueryHandler(_appointmentRepo.Object ,_mapper.Object);
+            _cacheServiceMock = new Mock<ICacheService>();
+            _handler = new GetAppointmentByIdQueryHandler(_appointmentRepo.Object ,_mapper.Object, _cacheServiceMock.Object);
         }
         [Fact]
         public async Task Handle_Should_ReturnListOfAppointmentDtos_WhenAppointmentExist()

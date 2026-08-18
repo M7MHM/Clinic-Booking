@@ -1,4 +1,5 @@
-﻿using Clinic.Application.Features.Patient.Commands;
+﻿using Clinic.Application.Common.Interfaces;
+using Clinic.Application.Features.Patient.Commands;
 using Clinic.Application.Features.Patient.Handlers;
 using Clinic.Domain.interfaces;
 using Clinic.Domain.interfaces.repos;
@@ -17,11 +18,13 @@ namespace Clinic.Application.UnitTests.Patients
         private readonly Mock<IPatientRepo> _patientRepo;
         private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly AddPatientCommandHandler _handler;
+        private readonly Mock<ICacheService> _cacheServiceMock;
         public AddPatientCommandHandlerTest()
         {
             _patientRepo = new Mock<IPatientRepo>();
             _unitOfWork = new Mock<IUnitOfWork>();
-            _handler = new AddPatientCommandHandler(_patientRepo.Object, _unitOfWork.Object);
+            _cacheServiceMock = new Mock<ICacheService>();
+            _handler = new AddPatientCommandHandler(_patientRepo.Object, _unitOfWork.Object,_cacheServiceMock.Object);
         }
         [Fact]
         public async Task Handle_Should_CallRepoAndUnitOfWork_WhenPatientIsValid()

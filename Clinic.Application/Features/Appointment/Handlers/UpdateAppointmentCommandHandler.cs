@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 ﻿using AutoMapper;
 using Clinic.Application.Common.Interfaces;
-=======
 ﻿using Clinic.Application.Common.Interfaces;
->>>>>>> feature/redis-and-caching-safe
 using Clinic.Application.Features.Appointment.Commands;
 using Clinic.Application.Messages;
 using Clinic.Domain.interfaces;
@@ -16,23 +13,21 @@ namespace Clinic.Application.Features.Appointment.Handlers
     {
         private readonly IAppointmentRepo _appointmentRepo;
         private readonly IUnitOfWork _unitOfWork;
-<<<<<<< HEAD
         private readonly IMessageProducer _messageProducer;
+        private readonly ICacheService _cacheService;
 
-        public UpdateAppointmentCommandHandler(IAppointmentRepo appointmentRepo, IUnitOfWork unitOfWork , IMessageProducer messageProducer)
+        public UpdateAppointmentCommandHandler(IAppointmentRepo appointmentRepo, IUnitOfWork unitOfWork, IMessageProducer messageProducer, ICacheService cacheService)
         {
             _appointmentRepo = appointmentRepo;
             _unitOfWork = unitOfWork;
             _messageProducer = messageProducer;
-=======
-        private readonly ICacheService _cacheService;
-
+            _cacheService = cacheService;
+        }
         public UpdateAppointmentCommandHandler(IAppointmentRepo appointmentRepo, IUnitOfWork unitOfWork, ICacheService cacheService)
         {
             _appointmentRepo = appointmentRepo;
             _unitOfWork = unitOfWork;
             _cacheService = cacheService;
->>>>>>> feature/redis-and-caching-safe
         }
 
         public async Task Handle(UpdateAppointmentCommand request, CancellationToken cancellationToken)
@@ -50,7 +45,6 @@ namespace Clinic.Application.Features.Appointment.Handlers
             await _appointmentRepo.UpdateAppointmentAsync(appointment);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-<<<<<<< HEAD
             var updateMessage = new AppointmentUpdateMessage
             {
                 AppointmentId = appointment.Id,
@@ -61,11 +55,9 @@ namespace Clinic.Application.Features.Appointment.Handlers
             };
 
             await _messageProducer.SendMessageAsync(updateMessage , "notifications_queue");
-=======
             await _cacheService.RemoveAsync($"appointment:{request.Id}");
             await _cacheService.RemoveAsync($"appointments:doctor:{appointment.DoctorId}");
             await _cacheService.RemoveAsync($"appointments:patient:{appointment.PatientId}");
->>>>>>> feature/redis-and-caching-safe
         }
     }
 }

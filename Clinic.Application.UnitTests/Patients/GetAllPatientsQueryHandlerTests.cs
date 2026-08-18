@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Clinic.Application.Common.Interfaces;
 using Clinic.Application.Features.Patient.Dtos;
 using Clinic.Application.Features.Patient.Handlers;
 using Clinic.Application.Features.Patient.Queries.Clinic.Application.Patients.Queries;
@@ -15,13 +16,13 @@ namespace Clinic.Application.UnitTests.Patients
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<IPatientRepo> _patientRepoMock;
         private readonly GetAllPatientsQueryHandler _handler;
-
+        private readonly Mock<ICacheService> _cacheServiceMock;
         public GetAllPatientsQueryHandlerTests()
         {
             _mapperMock = new Mock<IMapper>();
             _patientRepoMock = new Mock<IPatientRepo>();
-
-            _handler = new GetAllPatientsQueryHandler(_mapperMock.Object, _patientRepoMock.Object);
+            _cacheServiceMock = new Mock<ICacheService>();
+            _handler = new GetAllPatientsQueryHandler(_mapperMock.Object, _patientRepoMock.Object, _cacheServiceMock.Object);
         }
 
         [Fact]

@@ -1,4 +1,5 @@
-﻿using Clinic.Application.Features.Appointment.Commands;
+﻿using Clinic.Application.Common.Interfaces;
+using Clinic.Application.Features.Appointment.Commands;
 using Clinic.Application.Features.Appointment.Dtos;
 using Clinic.Application.Features.Appointment.Handlers;
 using Clinic.Domain.interfaces;
@@ -18,11 +19,15 @@ namespace Clinic.Application.UnitTests.Appointments
         private readonly Mock<IAppointmentRepo> _appointmentRepo;
         private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly CreateAppointmentCommandHandler _handler;
+        private readonly Mock<ICacheService> _cacheServiceMock;
+        private readonly Mock<IMessageProducer> _messageProducerMock;
         public CreateAppointmentCommandHandlerTest()
         {
             _appointmentRepo = new Mock<IAppointmentRepo>();
             _unitOfWork = new Mock<IUnitOfWork>();
-            _handler = new CreateAppointmentCommandHandler(_unitOfWork.Object , _appointmentRepo.Object);
+            _cacheServiceMock = new Mock<ICacheService>();
+            _messageProducerMock = new Mock<IMessageProducer>();
+            _handler = new CreateAppointmentCommandHandler(_unitOfWork.Object , _appointmentRepo.Object,_cacheServiceMock.Object,_messageProducerMock.Object);
         }
         [Fact]
         public async Task Handle_Should_CallRepoAndUnitOfWork_WhenDoctorAndPatientIsValid()

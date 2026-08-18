@@ -1,4 +1,5 @@
-﻿using Clinic.Application.Features.Appointment.Commands;
+﻿using Clinic.Application.Common.Interfaces;
+using Clinic.Application.Features.Appointment.Commands;
 using Clinic.Application.Features.Appointment.Handlers;
 using Clinic.Domain.interfaces;
 using Clinic.Domain.interfaces.repos;
@@ -14,15 +15,13 @@ namespace Clinic.Application.UnitTests.Appointments
         private readonly Mock<IAppointmentRepo> _appointmentRepo;
         private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly UpdateAppointmentCommandHandler _handler;
-
+        private readonly Mock<ICacheService> _cacheServiceMock;
         public UpdateAppointmentCommandHandlerTest()
         {
             _appointmentRepo = new Mock<IAppointmentRepo>();
             _unitOfWork = new Mock<IUnitOfWork>();
-
-            _handler = new UpdateAppointmentCommandHandler(
-                _appointmentRepo.Object,
-                _unitOfWork.Object);
+            _cacheServiceMock = new Mock<ICacheService>();
+            _handler = new UpdateAppointmentCommandHandler(_appointmentRepo.Object, _unitOfWork.Object,_cacheServiceMock.Object);
         }
 
         [Fact]
