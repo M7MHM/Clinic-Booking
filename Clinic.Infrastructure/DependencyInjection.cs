@@ -28,7 +28,6 @@ namespace Clinic.Infrastructure
             services.AddScoped<IDoctorRepo, DoctorRepo>();
             services.AddScoped<IPatientRepo, PatientRepo>();
             services.AddScoped<IAppointmentRepo, AppointmentRepo>();
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
 
@@ -66,20 +65,19 @@ namespace Clinic.Infrastructure
             services.AddHttpContextAccessor();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-            var redisConnection =
-                configuration["Redis:ConnectionString"] ?? "localhost:6379";
-
-            services.AddSingleton<IConnectionMultiplexer>(
-                ConnectionMultiplexer.Connect(redisConnection));
+            var redisConnection = configuration["Redis:ConnectionString"] ?? "localhost:6379";
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                var options = ConfigurationOptions.Parse(redisConnection);
+                options.AbortOnConnectFail = false;
+                return ConnectionMultiplexer.Connect(options);
+            });
 
             services.AddScoped<ICacheService, RedisCacheService>();
 
             services.AddScoped<IMessageProducer, RabbitMQProducer>();
-            services.AddHostedService<NotificationConsumer>();
-                services.AddSingleton<IConnectionMultiplexer>(
-                    ConnectionMultiplexer.Connect(redisConnection));
 
-                services.AddScoped<ICacheService, RedisCacheService>();
+            services.AddHostedService<NotificationConsumer>();
 
             return services;
         }

@@ -42,6 +42,8 @@ namespace Clinic.Infrastructure.Services
                 exchange: string.Empty,
                 routingKey: queueName,
                 body: body);
+
+            await Task.Delay(250);
         }
     }
 }
