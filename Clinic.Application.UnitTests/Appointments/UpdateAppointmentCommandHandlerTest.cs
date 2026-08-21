@@ -16,18 +16,19 @@ namespace Clinic.Application.UnitTests.Appointments
         private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly UpdateAppointmentCommandHandler _handler;
         private readonly Mock<ICacheService> _cacheServiceMock;
+        private readonly Mock<IMessageProducer> _messageProducerMock;
         public UpdateAppointmentCommandHandlerTest()
         {
             _appointmentRepo = new Mock<IAppointmentRepo>();
             _unitOfWork = new Mock<IUnitOfWork>();
             _cacheServiceMock = new Mock<ICacheService>();
-            _handler = new UpdateAppointmentCommandHandler(_appointmentRepo.Object, _unitOfWork.Object,_cacheServiceMock.Object);
+            _messageProducerMock = new Mock<IMessageProducer>();
+            _handler = new UpdateAppointmentCommandHandler(_appointmentRepo.Object, _unitOfWork.Object,_messageProducerMock.Object,_cacheServiceMock.Object);
         }
 
         [Fact]
         public async Task Handle_Should_UpdateAppointmentAndSaveChanges_WhenAppointmentExists()
         {
-            // Arrange
             var appointment = new Appointment(
                 Guid.NewGuid(),
                 Guid.NewGuid(),

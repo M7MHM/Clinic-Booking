@@ -1,0 +1,6 @@
+@Clinic.Notification.Api_HostAddress = http://localhost:5012
+
+GET {{Clinic.Notification.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

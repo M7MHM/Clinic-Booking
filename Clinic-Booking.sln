@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Application.UnitTests", "Clinic.Application.UnitTests\Clinic.Application.UnitTests.csproj", "{97586FAA-87E9-435A-BA4A-BA11151A050D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Notification.Api", "Clinic.Notification.Api\Clinic.Notification.Api.csproj", "{D1D447BA-BDF0-4484-B878-B2589CE0B098}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Gateway", "Clinic.Gateway\Clinic.Gateway.csproj", "{F46381FE-17A4-4927-8665-58433174D991}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +48,14 @@ Global
 		{97586FAA-87E9-435A-BA4A-BA11151A050D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97586FAA-87E9-435A-BA4A-BA11151A050D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97586FAA-87E9-435A-BA4A-BA11151A050D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1D447BA-BDF0-4484-B878-B2589CE0B098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1D447BA-BDF0-4484-B878-B2589CE0B098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1D447BA-BDF0-4484-B878-B2589CE0B098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1D447BA-BDF0-4484-B878-B2589CE0B098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46381FE-17A4-4927-8665-58433174D991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46381FE-17A4-4927-8665-58433174D991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46381FE-17A4-4927-8665-58433174D991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46381FE-17A4-4927-8665-58433174D991}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

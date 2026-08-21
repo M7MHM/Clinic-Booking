@@ -5,7 +5,6 @@ using Clinic.Domain.Common;
 using Clinic.Domain.interfaces;
 using Clinic.Domain.interfaces.repos;
 using Clinic.Infrastructure.Data;
-using Clinic.Infrastructure.Messaging;
 using Clinic.Infrastructure.Repos;
 using Clinic.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -76,8 +75,6 @@ namespace Clinic.Infrastructure
             services.AddScoped<ICacheService, RedisCacheService>();
 
             services.AddScoped<IMessageProducer, RabbitMQProducer>();
-
-            services.AddHostedService<NotificationConsumer>();
 
             return services;
         }
